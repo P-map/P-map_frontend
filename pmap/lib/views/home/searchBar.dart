@@ -5,61 +5,172 @@ void main() {
   runApp(const MyApp());
 }
 
-String searchText = '';
-
-List<String> items = ['음식점', '카페', '공원', '박물관', '미술관'];
-List<String> itmContents = [
-  '음식점 Contents', 
-  '카페 Contents', 
-  '공원 Contents', 
-  '박물관 Contents',
-  '미술관 Contents'];
-
-class Search extends StatefulWidget {
-  const Search({Key? key}) : super(key: key);
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({Key? key}) : super(key: key);
 
   @override
-  State<Search> createState() => _SearchState();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _SearchState extends State<Search> {
+class _SearchScreenState extends State<SearchScreen> {
+  TextEditingController searchController = TextEditingController();
+  FocusNode focusNode = FocusNode();
+
+  List<String> items = ['음식점', '카페', '공원', '박물관', '미술관'];
+  List<String> itmContents = [
+    '음식점 Contents',
+    '카페 Contents',
+    '공원 Contents',
+    '박물관 Contents',
+    '미술관 Contents',
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        margin: const EdgeInsets.all(16),
-        color: Colors.purple.shade100,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              InkWell(
-                onTap: () {
-                  // 뒤로가기 버튼 누르면 pop
-                  // 샘플 앱에서는 쌓여있는 위젯이 없어 아래와 같이 코드를 넣으면 
-                  // 검정색 화면만 나오게 됨
-                  Navigator.of(context).pop();
-                },
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(Icons.arrow_back_ios, size: 18),
+    return Container(
+      padding: const EdgeInsets.all(15),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    // if (searchController.text.isNotEmpty) {
+                    //   setState(() {
+                    //     searchController.text = ''; // 검색어 초기화
+                    //   });
+                    // } else {
+                    //   Navigator.of(context).pop(); // 뒤로가기
+                    // }
+                  },
+                  icon: searchController.text.isNotEmpty
+                      ? const Icon(Icons.clear) // 검색어가 비어있지 않으면 검색어 초기화 아이콘
+                      : const Icon(Icons.arrow_back_ios), // 검색어가 비어있으면 뒤로가기 아이콘
                 ),
-              ),
-              const Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(child: Text('강남역[2호선]', textAlign: TextAlign.center)),
-                    Icon(Icons.arrow_right_alt),
-                    Expanded(child: Text('남산서울타워', textAlign: TextAlign.center)),
-                  ],
+                const SizedBox(width: 16),
+                Expanded(
+                  child: TextField(
+                    controller: searchController,
+                    decoration: const InputDecoration(
+                      hintText: '검색어를 입력하세요',
+                      border: InputBorder.none,
+                      // fillColor: Colors.white,
+                      // filled: true,
+                    ),
+                  ),
                 ),
-                )
-
-            ],
+                const SizedBox(width: 32),
+                IconButton(
+                  onPressed: () {
+                    if (searchController.text.isNotEmpty) {
+                      setState(() {
+                        searchController.text = ''; // 검색어 초기화
+                      });
+                    } else {
+                      Navigator.of(context).pop(); // 뒤로가기
+                    }
+                  },
+                  icon: searchController.text.isNotEmpty
+                      ? const Icon(Icons.clear) // 검색어가 비어있지 않으면 검색어 초기화 아이콘
+                      : const Icon(Icons.arrow_back_ios), // 검색어가 비어있으면 뒤로가기 아이콘
+                ),
+                // const SizedBox(width: 0),
+              ],
+            ),
           ),
-        ),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: 50,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      String selectedQuery = items[0];
+                      searchController.text = selectedQuery;
+                      print('선택한 검색어: $selectedQuery');
+                    },
+                    child: Container(
+                      width: 82,
+                      height: 32,
+                      margin: const EdgeInsets.all(8),
+                      color: Colors.white,
+                      alignment: Alignment.center,
+                      child: Text(items[0]),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      String selectedQuery = items[1];
+                      searchController.text = selectedQuery;
+                      print('선택한 검색어: $selectedQuery');
+                    },
+                    child: Container(
+                      width: 82,
+                      height: 32,
+                      margin: const EdgeInsets.all(8),
+                      color: Colors.white,
+                      alignment: Alignment.center,
+                      child: Text(items[1]),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      String selectedQuery = items[2];
+                      searchController.text = selectedQuery;
+                      print('선택한 검색어: $selectedQuery');
+                    },
+                    child: Container(
+                      width: 82,
+                      height: 32,
+                      margin: const EdgeInsets.all(8),
+                      color: Colors.white,
+                      alignment: Alignment.center,
+                      child: Text(items[2]),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      String selectedQuery = items[3];
+                      searchController.text = selectedQuery;
+                      print('선택한 검색어: $selectedQuery');
+                    },
+                    child: Container(
+                      width: 82,
+                      height: 32,
+                      margin: const EdgeInsets.all(8),
+                      color: Colors.white,
+                      alignment: Alignment.center,
+                      child: Text(items[3]),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      String selectedQuery = items[4];
+                      searchController.text = selectedQuery;
+                      print('선택한 검색어: $selectedQuery');
+                    },
+                    child: Container(
+                      width: 82,
+                      height: 32,
+                      margin: const EdgeInsets.all(8),
+                      color: Colors.white,
+                      alignment: Alignment.center,
+                      child: Text(items[4]),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

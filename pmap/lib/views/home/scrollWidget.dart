@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'hidenavbar.dart';
 
 class HomeWidget extends StatefulWidget {
@@ -13,7 +12,7 @@ class HomeWidget extends StatefulWidget {
     late double _height;
 
     final double _lowLimit = 200;
-    final double _highLimit = 700;
+    final double _highLimit = 650;
     final double _upThresh = 100;
     final double _boundary = 300;
     final double _downThresh = 350;
@@ -31,7 +30,7 @@ class HomeWidget extends StatefulWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: 0.0,
+      bottom: -10,
       child: GestureDetector(
         onVerticalDragUpdate: ((details) {
           double? delta = details.primaryDelta;
@@ -66,9 +65,9 @@ class HomeWidget extends StatefulWidget {
             });
           }
         },
-        duration: const Duration(milliseconds: 400),
+        duration: const Duration(milliseconds: 100),
         decoration: const BoxDecoration(
-          boxShadow: [BoxShadow(blurRadius: 6, spreadRadius: 0.7)],
+          boxShadow: [BoxShadow(color: Colors.black26, offset: Offset(0, -4), blurRadius: 10, spreadRadius: 0)],
           color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))
         ),
@@ -79,14 +78,14 @@ class HomeWidget extends StatefulWidget {
             const SizedBox(
               height: 20,
             ),
-            Container(
-              width: 70,
+            Container( // 위젯 안의 회색 선
+              width: 50,
               height: 4.5,
               decoration: const BoxDecoration(
-                color: Colors.grey,
+                color: Color(0xff614cbb),
                 borderRadius: BorderRadius.all(Radius.circular(10))
               ),
-            )
+            ),
           ],
         ),
         )
