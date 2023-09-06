@@ -11,11 +11,11 @@ class HomeWidget extends StatefulWidget {
   class _HomeWidgetState extends State<HomeWidget> {
     late double _height;
 
-    final double _lowLimit = 200;
-    final double _highLimit = 650;
-    final double _upThresh = 100;
-    final double _boundary = 300;
-    final double _downThresh = 350;
+    final double _lowLimit = 120;
+    final double _highLimit = 670;
+    final double _upThresh = 150;
+    final double _boundary = 200;
+    final double _downThresh = 250;
 
     final HideNavbar hiding = HideNavbar();
 
@@ -78,7 +78,7 @@ class HomeWidget extends StatefulWidget {
             const SizedBox(
               height: 20,
             ),
-            Container( // 위젯 안의 회색 선
+            Container( // 위젯 안의 선
               width: 50,
               height: 4.5,
               decoration: const BoxDecoration(

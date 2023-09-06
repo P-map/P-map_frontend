@@ -15,6 +15,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController searchController = TextEditingController();
   FocusNode focusNode = FocusNode();
+  String selectedQuery = '';
 
   List<String> items = ['음식점', '카페', '공원', '박물관', '미술관'];
   List<String> itmContents = [
@@ -25,6 +26,17 @@ class _SearchScreenState extends State<SearchScreen> {
     '미술관 Contents',
   ];
 
+  bool isSearchIcon = false;
+
+  void toggleSearchMode() {
+    setState(() {
+      isSearchIcon = !isSearchIcon;
+      if (!isSearchIcon) {
+        searchController.text = '';
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,7 +44,7 @@ class _SearchScreenState extends State<SearchScreen> {
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(5.0),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
@@ -41,28 +53,23 @@ class _SearchScreenState extends State<SearchScreen> {
               children: [
                 IconButton(
                   onPressed: () {
-                    // if (searchController.text.isNotEmpty) {
-                    //   setState(() {
-                    //     searchController.text = ''; // 검색어 초기화
-                    //   });
-                    // } else {
-                    //   Navigator.of(context).pop(); // 뒤로가기
-                    // }
+                    Navigator.of(context).pop();
                   },
-                  icon: searchController.text.isNotEmpty
-                      ? const Icon(Icons.clear) // 검색어가 비어있지 않으면 검색어 초기화 아이콘
-                      : const Icon(Icons.arrow_back_ios), // 검색어가 비어있으면 뒤로가기 아이콘
+                  icon: const Icon(Icons.menu),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: TextField(
                     controller: searchController,
                     decoration: const InputDecoration(
-                      hintText: '검색어를 입력하세요',
+                      hintText: '장소를 검색하세요',
                       border: InputBorder.none,
-                      // fillColor: Colors.white,
-                      // filled: true,
                     ),
+                    onChanged: (value) {
+                      setState(() {
+                        isSearchIcon = value.isNotEmpty;
+                      });
+                    },
                   ),
                 ),
                 const SizedBox(width: 32),
@@ -70,17 +77,15 @@ class _SearchScreenState extends State<SearchScreen> {
                   onPressed: () {
                     if (searchController.text.isNotEmpty) {
                       setState(() {
-                        searchController.text = ''; // 검색어 초기화
-                      });
-                    } else {
-                      Navigator.of(context).pop(); // 뒤로가기
+                      searchController.text = '';
+                    });
                     }
                   },
-                  icon: searchController.text.isNotEmpty
-                      ? const Icon(Icons.clear) // 검색어가 비어있지 않으면 검색어 초기화 아이콘
-                      : const Icon(Icons.arrow_back_ios), // 검색어가 비어있으면 뒤로가기 아이콘
+                  icon: isSearchIcon && searchController.text.isNotEmpty
+                      ? const Icon(Icons.clear)
+                      : const Icon(Icons.search),
+                  iconSize: 25,
                 ),
-                // const SizedBox(width: 0),
               ],
             ),
           ),
@@ -91,81 +96,11 @@ class _SearchScreenState extends State<SearchScreen> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      String selectedQuery = items[0];
-                      searchController.text = selectedQuery;
-                      print('선택한 검색어: $selectedQuery');
-                    },
-                    child: Container(
-                      width: 82,
-                      height: 32,
-                      margin: const EdgeInsets.all(8),
-                      color: Colors.white,
-                      alignment: Alignment.center,
-                      child: Text(items[0]),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      String selectedQuery = items[1];
-                      searchController.text = selectedQuery;
-                      print('선택한 검색어: $selectedQuery');
-                    },
-                    child: Container(
-                      width: 82,
-                      height: 32,
-                      margin: const EdgeInsets.all(8),
-                      color: Colors.white,
-                      alignment: Alignment.center,
-                      child: Text(items[1]),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      String selectedQuery = items[2];
-                      searchController.text = selectedQuery;
-                      print('선택한 검색어: $selectedQuery');
-                    },
-                    child: Container(
-                      width: 82,
-                      height: 32,
-                      margin: const EdgeInsets.all(8),
-                      color: Colors.white,
-                      alignment: Alignment.center,
-                      child: Text(items[2]),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      String selectedQuery = items[3];
-                      searchController.text = selectedQuery;
-                      print('선택한 검색어: $selectedQuery');
-                    },
-                    child: Container(
-                      width: 82,
-                      height: 32,
-                      margin: const EdgeInsets.all(8),
-                      color: Colors.white,
-                      alignment: Alignment.center,
-                      child: Text(items[3]),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      String selectedQuery = items[4];
-                      searchController.text = selectedQuery;
-                      print('선택한 검색어: $selectedQuery');
-                    },
-                    child: Container(
-                      width: 82,
-                      height: 32,
-                      margin: const EdgeInsets.all(8),
-                      color: Colors.white,
-                      alignment: Alignment.center,
-                      child: Text(items[4]),
-                    ),
-                  ),
+                  categoryWidget(items[0], Icons.restaurant_menu),
+                  categoryWidget(items[1], Icons.local_drink),
+                  categoryWidget(items[2], Icons.park),
+                  categoryWidget(items[3], Icons.castle_outlined),
+                  categoryWidget(items[4], Icons.brush)
                 ],
               ),
             ),
@@ -173,5 +108,37 @@ class _SearchScreenState extends State<SearchScreen> {
         ],
       ),
     );
+  }
+
+  GestureDetector categoryWidget(String text, IconData iconData) {
+    return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      searchController.text = text;
+                      isSearchIcon = true;
+                    });
+                  },
+                  child: Container(
+                      width: 83,
+                      height: 33,
+                      margin: const EdgeInsets.all(3),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            iconData,
+                            size: 18,
+                            color: const Color(0xff9480F2),
+                          ),
+                          const SizedBox(width: 5),
+                          Text(text),
+                        ],
+                      ),
+                      ),
+                );
   }
 }
