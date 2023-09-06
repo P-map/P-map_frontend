@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pmap/views/home/scrollWidget.dart';
+import 'package:pmap/views/home/searchBar.dart';
 import 'package:pmap/views/onboarding/onboarding.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,7 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  double height = 300;
+  // double height = 300;
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +20,18 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            SearchBar(),
+            Screen0(),
             Column(
-              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Expanded(child: Screen0()),
+                // Screen0(),
+                SearchScreen(),
+                // Expanded(child: Screen0()),
+                // HomeWidget()
               ],
             ),
             HomeWidget(),
+            
           ],
         ),
       ),
